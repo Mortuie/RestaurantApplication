@@ -14,3 +14,4 @@
 - I want them to be able to accept/reject orders
 - I want the restaurant to be able to mark items as *out of stock*
 - I want the restaurant to be able to configure the amount of each item on the menu
+- I want the restaurant to be able to see outstanding orders
