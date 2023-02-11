@@ -11,17 +11,23 @@ import (
 
 var bot *tbot.BotAPI
 
-var menu string = `
-# Hello World
+var menu string = `\# hi there`
 
+// var htmlMenu string = `<h1>Menu</h1>`
 
-## Yessir
-
-
-- 1
-- 2
-- 3
-`
+//     <h3>Starters:</h3>
+//     <ol>
+//       <li>Hello Sir</li>
+//     </ol>
+//     <h3>Mains:</h3>
+//     <ol>
+//       <li>Yessir</li>
+//     </ol>
+//     <h3>Dessert:</h3>
+//     <ol>
+//       <li>123</li>
+//     </ol>
+// `
 
 // https://gitlab.com/Athamaxy/telegram-bot-tutorial/-/blob/main/TutorialBot.go
 
@@ -42,12 +48,12 @@ func handleMessage(msg *tbot.Message) {
 
 		switch split[0] {
 		case "/menu":
-			tempMessage := tbot.NewMessage(chatId, "<b>MENU</b>")
-			tempMessage.ParseMode = tbot.ModeHTML
+			tempMessage := tbot.NewMessage(chatId, menu)
+			tempMessage.ParseMode = tbot.ModeMarkdownV2
 			tempMessage.ReplyToMessageID = msg.MessageID
 			_, err := bot.Send(tempMessage)
 			if err != nil {
-				log.Print("Failed to send msg to telegram API ", tempMessage)
+				log.Print("Failed to send msg to telegram API ", err, tempMessage)
 				return
 			}
 			return
@@ -64,7 +70,7 @@ func handleMessage(msg *tbot.Message) {
 			return
 		}
 	} else if strings.Trim(text, " ") == "help" {
-		
+
 	} else {
 
 		tempMessage := tbot.NewMessage(chatId, fmt.Sprintf("'%s' is not a valid command.", text))
@@ -84,7 +90,6 @@ func processUpdates(update tbot.Update) {
 	default:
 		log.Println("Unhandled update", update)
 	}
-
 }
 
 func receiveUpdates(updates tbot.UpdatesChannel) {
