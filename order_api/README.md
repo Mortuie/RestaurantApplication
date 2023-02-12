@@ -15,6 +15,7 @@
 ## Restaurant UI REST API
 
 - Can create a restaurant based on a login (one to many)
+- Can create a menu
 - Can add and remove items to the menu list
 - Can see orders that they need to complete
 - Can make orders as complete

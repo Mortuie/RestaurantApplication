@@ -2,35 +2,34 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
-	"github.com/google/uuid"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
+	"github.com/gin-gonic/gin"
 )
 
-type Product struct {
-	UUID  string `gorm:"primaryKey"`
-	Code  string
-	Price uint
-}
-
-func (p *Product) BeforeCreate(tx *gorm.DB) error {
-	p.UUID = uuid.NewString()
-	return nil
-}
-
 func main() {
-	db, err := gorm.Open(sqlite.Open("order.db"), &gorm.Config{})
+	db, err := NewDbClient("order.db")
 	if err != nil {
 		panic("Failed to connect to sqlitedb")
 	}
 
-	db.AutoMigrate(&Product{})
-	// db.Create(&Product{Code: "D42", Price: 100})
+	db.AutoMigrate(&RestaurantUser{})
+	db.AutoMigrate(&Menu{})
+	db.AutoMigrate(&LineItem{})
+	db.AutoMigrate(&Restaurant{})
+	db.AutoMigrate(&MenuSections{})
 
-	var product Product
-	db.First(&product)
-	// db.Delete(&product)
+	r := gin.Default()
 
-	fmt.Println(product)
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
+
+	routerV1 := r.Group("v1")
+	AddAllRoutes(db, routerV1)
+
+	fmt.Printf("API running on port: %d", 8000)
+	r.Run(":8000")
 }
