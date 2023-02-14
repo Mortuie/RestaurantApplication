@@ -33,11 +33,15 @@ func New(dsn string) (*DB, error) {
 		return nil, err
 	}
 
-	conn := DB{db: db}
+	conn := &DB{db: db}
 
 	if err := conn.createTables(); err != nil {
 		return nil, err
 	}
 
-	return &conn, nil
+	return conn, nil
+}
+
+func (db *DB) Close() {
+	db.db.Close()
 }
