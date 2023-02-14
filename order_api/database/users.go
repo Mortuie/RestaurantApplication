@@ -16,9 +16,10 @@ func InsertUser(d *DB, u models.User) error {
 func GetUser(d *DB, uuid string) (*models.UserResponse, error) {
 	statement := fmt.Sprintf(`select uuid, username from users where uuid = '%s';`, uuid)
 
-	var u models.UserResponse
-	err := d.db.QueryRow(statement).Scan(&u)
+	row := d.db.QueryRow(statement)
 
+	var u models.UserResponse
+	err := row.Scan(&u.UUID, &u.Username)
 	if err != nil {
 		return &models.UserResponse{}, err
 	}
