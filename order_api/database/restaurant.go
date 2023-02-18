@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"restapp/order-api/models"
 )
 
@@ -36,7 +35,6 @@ func GetRestaurants(d *DB, pc models.PagingConfig) ([]models.Restaurant, error) 
 		}
 		rs = append(rs, r)
 	}
-	fmt.Println("ROWS", rs)
 
 	if err = rows.Err(); err != nil {
 		return rs, err
