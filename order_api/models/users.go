@@ -9,8 +9,8 @@ type UserResponse struct {
 
 type User struct {
 	UUID     string `json:"uuid"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username string `json:"username" validate:"min=3"`
+	Password string `json:"password" validate:"min=3"`
 }
 
 func (u *User) HashPassword() error {
