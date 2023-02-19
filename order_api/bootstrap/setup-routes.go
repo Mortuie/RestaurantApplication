@@ -30,6 +30,11 @@ func ServeHttp(app *application) error {
 	router.GET("/restaurants/:uuid", app.getRestaurant)
 	router.POST("/restaurants", app.createRestaurant)
 
+	// menus
+	router.GET("/menus", app.getMenus)
+	router.GET("/menus/:uuid", app.getMenu)
+	router.POST("/menus", app.createMenu)
+
 	fmt.Printf("Serving http requests on port: %d\n", 8080)
 	return http.ListenAndServe(":8080", router)
 }
