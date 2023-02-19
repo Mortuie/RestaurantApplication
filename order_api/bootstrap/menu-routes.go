@@ -9,7 +9,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/julienschmidt/httprouter"
-	"gopkg.in/validator.v2"
 )
 
 // needs uuid
@@ -60,7 +59,7 @@ func (a *application) createMenu(w http.ResponseWriter, r *http.Request, qp http
 		return
 	}
 
-	if err := validator.Validate(res); err != nil {
+	if err := a.v.Struct(res); err != nil {
 		fmt.Println(res, err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

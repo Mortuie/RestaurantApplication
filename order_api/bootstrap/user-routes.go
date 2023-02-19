@@ -9,7 +9,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/julienschmidt/httprouter"
-	"gopkg.in/validator.v2"
 )
 
 func (a *application) createUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -21,7 +20,7 @@ func (a *application) createUser(w http.ResponseWriter, r *http.Request, _ httpr
 		return
 	}
 
-	if err = validator.Validate(u); err != nil {
+	if err = a.v.Struct(u); err != nil {
 		fmt.Println("MEMES, validation err", err)
 		return
 	}

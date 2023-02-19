@@ -4,11 +4,14 @@ import (
 	"log"
 	"os"
 	"restapp/order-api/database"
+
+	"github.com/go-playground/validator/v10"
 )
 
 type application struct {
 	db     *database.DB
 	logger *log.Logger
+	v      *validator.Validate
 }
 
 func Setup() error {
@@ -20,7 +23,9 @@ func Setup() error {
 		return err
 	}
 
-	app := &application{db: db, logger: logger}
+	v := validator.New()
+
+	app := &application{db: db, logger: logger, v: v}
 
 	ServeHttp(app)
 
